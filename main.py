@@ -1,46 +1,41 @@
-# credit card number validator
-"""
- Logic :
-    1.remove ' - ' or any " " from the input
-    2.add all the digits in the odd places from the right to left 
-    3.double every second digit from the right to left (if the result leads to the two digit number then add them to get a single digit)
-    4.sum_odd the totals of step 2& 3
-    5.check if the sum_odd is divisible by 10 then the credit card number is valid.
-    6.display whether the card is valid or not.
+def detect_card_type(number):
+    if number.startswith('4') and len(number) in [13, 16]:
+        return "Visa"
+    elif number.startswith(('51', '52', '53', '54', '55')) and len(number) == 16:
+        return "MasterCard"
+    elif number.startswith(('34', '37')) and len(number) == 15:
+        return "American Express"
+    elif number.startswith('6011') and len(number) == 16:
+        return "Discover"
+    elif number.startswith('35') and len(number) == 16:
+        return "JCB"
+    elif number.startswith(('36', '38')) and len(number) == 14:
+        return "Diners Club"
+    elif number.startswith('30') and len(number) == 16 :
+        return "Diners Club"
+    else:
+        return "Unknown or Unsupported"
 
-"""
-cc_number = ""
 def cardvalidator(text):
-# removing the spaces from the input number
-    cc_number = input("Enter your credit card number")
+    cc_number = input("Enter your credit card number: ")
     cc_number = cc_number.replace("-", "").replace(" ", "")
+    
+    print("🔍 Detected Card Type:", detect_card_type(cc_number))
+
     cc_number = cc_number[::-1]
-    print(cc_number)
 
-    # sum the odd digits from right to left (reverse of given number)
-    sum_odd = 0
-    for i in cc_number[::2]:
-        sum_odd += int(i)
-    print(sum_odd)
-
-    # sum the even digits from right to left (reverse of given number)
+    sum_odd = sum(int(i) for i in cc_number[::2])
 
     sum_even = 0
     for i in cc_number[1::2]:
-        i = int(i)*2
-        if i > 10:
-            sum_even += (1+ (i%10))  #(ex : 18 = 1 + 8 = 9)
-        else:
-            sum_even += i
+        doubled = int(i) * 2
+        sum_even += doubled if doubled < 10 else (doubled - 9)
+
     total = sum_odd + sum_even
-    
-    if(total %10 == 0):
-        print("valid")
-    else: 
-        print("Invalid")
 
-cardvalidator(cc_number)
+    if total % 10 == 0:
+        print("✅ Valid Credit Card Number!")
+    else:
+        print("❌ Invalid Credit Card Number.")
 
-
-
-
+cardvalidator("")
