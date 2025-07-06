@@ -10,7 +10,7 @@
     6. check if the sum is divisible by 10 then the credit card number is valid
     7. display card type and whether it is valid or not
 """
-
+# Detect the Card Type
 def detect_card_type(number):
     if number.startswith('4') and len(number) in [13, 16]:
         return "Visa"
@@ -32,22 +32,20 @@ def detect_card_type(number):
 cc_number = ""
 
 def cardvalidator(text):
-    # Step 1: Input and cleanup
     cc_number = input("Enter your credit card number: ")
     cc_number = cc_number.replace("-", "").replace(" ", "")
     
-    # Step 2: Detect card type
+    # Detect card type
     print("🔍 Card Type:", detect_card_type(cc_number))
-
-    # Step 3: Reverse the number for validation
+ 
     cc_number = cc_number[::-1]
-
-    # Step 4: Sum odd-position digits
+ 
+    # Sum odd-position digits
     sum_odd = 0
     for i in cc_number[::2]:
         sum_odd += int(i)
 
-    # Step 5: Sum even-position digits after doubling
+    # Sum even-position digits after doubling
     sum_even = 0
     for i in cc_number[1::2]:
         i = int(i) * 2
@@ -56,10 +54,10 @@ def cardvalidator(text):
         else:
             sum_even += i
 
-    # Step 6: Final total
+    # Final total
     total = sum_odd + sum_even
 
-    # Step 7: Check if valid
+    # Check if valid
     if total % 10 == 0:
         print("✅ Valid Credit Card Number!")
     else: 
